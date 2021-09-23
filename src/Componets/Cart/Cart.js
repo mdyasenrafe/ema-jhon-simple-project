@@ -7,15 +7,17 @@ const dollarIcon = <FontAwesomeIcon icon={faDollarSign} />;
 const Cart = (props) => {
   const { cart } = props;
   let total = 0;
-  let shipingTax = 0;
-  let shipingTaxFixed = 0;
+  let totalFixed = 0;
   for (const product of cart) {
     total = total + product.price;
-    shipingTax = shipingTax + product.shipping;
-    shipingTaxFixed = shipingTax.toFixed(2);
-    console.log(shipingTaxFixed);
+    totalFixed = total.toFixed(2);
   }
-  console.log(cart);
+  const shiping = totalFixed > 0 ? 15 : 0;
+  const tax = (totalFixed + shiping) * 0.15;
+  const taxFixed = tax.toFixed(2);
+  const grandTotal = shiping + total + tax;
+  const grandTotalFixed = grandTotal.toFixed(2);
+
   return (
     <div>
       <h3>Order Summary</h3>
@@ -23,17 +25,31 @@ const Cart = (props) => {
       <table>
         <tbody>
           <tr>
-            <td>Total :</td>
+            <td>Total : </td>
             <td>
               {dollarIcon}
-              <span> {total}</span>
+              <span> {totalFixed}</span>
             </td>
           </tr>
           <tr>
-            <td>Shipping &amp; Handling :</td>
+            <td>Shipping &amp; Handling : </td>
             <td>
               {dollarIcon}
-              <span> {shipingTaxFixed}</span>
+              <span> {shiping}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Tax : </td>
+            <td>
+              {dollarIcon}
+              <span> {taxFixed}</span>
+            </td>
+          </tr>
+          <tr>
+            <td> Grand Total : </td>
+            <td>
+              {dollarIcon}
+              <span> {grandTotalFixed}</span>
             </td>
           </tr>
         </tbody>
