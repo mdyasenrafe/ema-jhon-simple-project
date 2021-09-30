@@ -1,15 +1,19 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
-
 const dollarIcon = <FontAwesomeIcon icon={faDollarSign} />;
 
 const Cart = (props) => {
   const { cart } = props;
   let total = 0;
   let totalFixed = 0;
+  let totalQuantity = 0;
   for (const product of cart) {
-    total = total + product.price;
+    if (!product.quantity) {
+      product.quantity = 1;
+    }
+    total = total + product.price * product.quantity;
+    totalQuantity = totalQuantity + product.quantity;
     totalFixed = total.toFixed(2);
   }
   const shiping = totalFixed > 0 ? 15 : 0;
@@ -21,7 +25,7 @@ const Cart = (props) => {
   return (
     <div>
       <h3>Order Summary</h3>
-      <h5>Items ordered:{props.cart.length}</h5>
+      <h5>Items ordered:{totalQuantity}</h5>
       <table>
         <tbody>
           <tr>

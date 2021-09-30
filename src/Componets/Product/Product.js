@@ -1,12 +1,19 @@
 import React from "react";
+import Rating from "react-rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import "./Product.css";
 
 const cartIcon = <FontAwesomeIcon icon={faShoppingCart} />;
+const starIcon = <FontAwesomeIcon icon={faStar} />;
+const starHalfIcon = <FontAwesomeIcon icon={faStarHalfAlt} />;
 
 const Product = (props) => {
-  const { img, name, price, stock, seller } = props.product;
+  const { img, name, price, stock, seller, star } = props.product;
+  const handleAddProduct = props.handleAddProduct;
+  const product = props.product;
   return (
     <div className="product">
       <div>
@@ -24,10 +31,16 @@ const Product = (props) => {
         <p>
           <small>only {stock} left in stock - order soon</small>
         </p>
-        <button
-          onClick={() => props.handleAddProduct(props.product)}
-          className="btn"
-        >
+        <br />
+        <Rating
+          className="icon-color"
+          initialRating={star}
+          emptySymbol="far fa-star"
+          fullSymbol="fas fa-star"
+          readonly
+        ></Rating>
+        <br />
+        <button onClick={() => handleAddProduct(product)} className="btn">
           {cartIcon}
           Add To Cart
         </button>

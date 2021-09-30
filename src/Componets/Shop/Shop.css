@@ -7,3 +7,12 @@
   margin-right: 5px;
   margin-left: 100px;
 }
+.search-area {
+  padding: 20px;
+  background-color: #222;
+  text-align: center;
+}
+input {
+  padding: 5px 3px;
+  width: 75%;
+}
