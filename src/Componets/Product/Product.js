@@ -2,13 +2,9 @@ import React from "react";
 import Rating from "react-rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import "./Product.css";
 
 const cartIcon = <FontAwesomeIcon icon={faShoppingCart} />;
-const starIcon = <FontAwesomeIcon icon={faStar} />;
-const starHalfIcon = <FontAwesomeIcon icon={faStarHalfAlt} />;
 
 const Product = (props) => {
   const { img, name, price, stock, seller, star } = props.product;
