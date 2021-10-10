@@ -17,7 +17,7 @@ const Shipping = () => {
 
   return (
     <div>
-      <form className="shipping-from" onSubmit={handleSubmit(onSubmit)}>
+      <form className="from" onSubmit={handleSubmit(onSubmit)}>
         <input
           placeholder="Enter Your Name"
           defaultValue={user.displayName}

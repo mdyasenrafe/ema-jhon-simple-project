@@ -11,7 +11,7 @@ const Shop = () => {
   const [displayProducts, setDisplayProducts] = useState([]);
 
   useEffect(() => {
-    fetch("products.JSON")
+    fetch("products.json")
       .then((res) => res.json())
       .then((data) => {
         Setproducts(data);
@@ -29,7 +29,6 @@ const Shop = () => {
           const quantity = getdbProducts[key];
           addedProduct.quantity = quantity;
           storeCart.push(addedProduct);
-          console.log(addedProduct);
         }
       }
       setCart(storeCart);
