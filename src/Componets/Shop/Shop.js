@@ -9,15 +9,21 @@ const Shop = () => {
   const [products, Setproducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [displayProducts, setDisplayProducts] = useState([]);
-
+  const [pageCount, setPageCount] = useState(0);
+  const [page, setPage] = useState(0);
+  const size = 10;
   useEffect(() => {
-    fetch("products.json")
+    fetch(`http://localhost:5000/products?page=${page}&&size=${size}`)
       .then((res) => res.json())
       .then((data) => {
-        Setproducts(data);
-        setDisplayProducts(data);
+        Setproducts(data.products);
+        setDisplayProducts(data.products);
+        const count = data.count;
+        const pageNumber = Math.ceil(count / 10);
+        setPageCount(pageNumber);
       });
-  }, []);
+  }, [page]);
+  console.log("number", pageCount);
 
   useEffect(() => {
     const getdbProducts = getStoredCart();
@@ -74,7 +80,19 @@ const Shop = () => {
               product={prod}
             ></Product>
           ))}
+          <div className="pagination">
+            {[...Array(pageCount).keys()].map((number) => (
+              <button
+                className={number === page ? "selected" : ""}
+                key={number}
+                onClick={() => setPage(number)}
+              >
+                {number + 1}
+              </button>
+            ))}
+          </div>
         </div>
+
         <div className="cart-container">
           <Cart cart={cart}>
             <Link to="/review">
