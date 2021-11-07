@@ -4,20 +4,18 @@ import { clearTheCart, deleteFromDb } from "../../utilities/fakedb";
 import Cart from "../Cart/Cart";
 import ReviewItem from "../ReviewItem/ReviewItem";
 import UseCart from "../UseCart/UseCart";
-import UseProduct from "../UseProdcut/UseProduct";
 
 const OrderReview = () => {
-  const [products, setProducts] = UseProduct();
-  const [cart, setCart] = UseCart(products);
-
+  const [cart, setCart] = UseCart();
+  console.log(cart);
   const handleRemove = (key) => {
     const newCart = cart.filter((data) => data.key !== key);
     setCart(newCart);
     deleteFromDb(key);
   };
   const handlePlaceOrder = () => {
-    setCart([]);
-    clearTheCart();
+    // setCart([]);
+    // clearTheCart();
   };
   return (
     <div className="shop-container">

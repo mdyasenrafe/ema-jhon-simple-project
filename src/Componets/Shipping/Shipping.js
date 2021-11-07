@@ -1,18 +1,44 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import UseAuth from "../../Context/UseAuth";
+import swal from "sweetalert";
 import "./Shipping.css";
-
+import { getStoredCart, clearTheCart } from "../../utilities/fakedb";
+import useCart from "../UseCart/UseCart";
 const Shipping = () => {
+  const [cart, setCart] = useCart();
   const { user } = UseAuth();
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    const savedCart = getStoredCart();
+    data.order = savedCart;
+    fetch("http://localhost:5000/orders", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          reset();
+          clearTheCart();
+          setCart([]);
+          swal({
+            title: "Your Item is order processed successfully",
+            icon: "success",
+            button: "OK",
+          });
+        }
+      });
   };
 
   return (
@@ -30,7 +56,12 @@ const Shipping = () => {
           {...register("email", { required: true })}
         />
         {errors.email && <span className="error">This field is required</span>}
-
+        <input
+          placeholder="Enter Your City"
+          defaultValue=""
+          {...register("city", { required: true })}
+        />
+        {errors.city && <span className="error">This field is required</span>}
         <input
           placeholder="Enter Your Address"
           defaultValue=""
@@ -39,12 +70,6 @@ const Shipping = () => {
         {errors.address && (
           <span className="error">This field is required</span>
         )}
-        <input
-          placeholder="Enter Your Address"
-          defaultValue=""
-          {...register("city", { required: true })}
-        />
-        {errors.city && <span className="error">This field is required</span>}
 
         <input
           placeholder="Enter Your Phone Number"

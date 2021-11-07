@@ -4,7 +4,7 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import UseAuth from "../../Context/UseAuth";
 import "./Login.css";
 const Login = () => {
-  const { signInUsingGoogle, signInWithEmail } = UseAuth();
+  const { signInUsingGoogle, signInWithEmail, setIsLoading } = UseAuth();
 
   const location = useLocation();
   // console.log(location.state?.from);
@@ -15,12 +15,12 @@ const Login = () => {
     signInUsingGoogle()
       .then((result) => {
         history.push(redirect_url);
-
-        console.log(result.user);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const {
@@ -36,7 +36,8 @@ const Login = () => {
       })
       .catch((error) => {
         console.log(error.message);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (

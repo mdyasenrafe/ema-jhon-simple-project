@@ -3,7 +3,11 @@ import { Redirect, Route } from "react-router";
 import useAuth from "../../Context/UseAuth";
 
 const PrivateRoute = ({ children, ...rest }) => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
+  console.log(isLoading);
+  if (isLoading) {
+    return <h1>This is Loading</h1>;
+  }
   return (
     <Route
       {...rest}

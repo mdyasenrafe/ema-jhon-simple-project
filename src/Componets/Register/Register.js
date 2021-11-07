@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import UseAuth from "../../Context/UseAuth";
 
 const Register = () => {
-  const { signInUsingGoogle, createUserWithEmail, updateUser } = UseAuth();
+  const { signInUsingGoogle, createUserWithEmail, updateUser, setIsLoading } =
+    UseAuth();
   const location = useLocation();
   // console.log(location.state?.from);
 
@@ -16,10 +17,12 @@ const Register = () => {
       .then((result) => {
         history.push(redirect_url);
         console.log(result.user);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
   const {
     register,
@@ -35,7 +38,8 @@ const Register = () => {
         updateUser(data.name);
         history.push(redirect_url);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => console.log(error.message))
+      .finally(() => setIsLoading(false));
   };
   return (
     <div className="login-form">

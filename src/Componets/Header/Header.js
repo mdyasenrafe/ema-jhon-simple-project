@@ -13,8 +13,10 @@ const Header = () => {
         <Link to="/shop">Shop</Link>
         <Link to="/review">Order Review</Link>
         <Link to="/inventory">Manage Inventory</Link>
+
         {user.email ? (
           <>
+            <Link to="/orders">Orders</Link>
             <span style={{ color: "white" }}>{user.displayName}</span>
             <button className="btn" onClick={logOut}>
               Log out

@@ -7,6 +7,7 @@ import {
   signOut,
   createUserWithEmailAndPassword,
   updateProfile,
+  getIdToken,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import initializeAuth from "../Firebase/firebase.init";
@@ -16,14 +17,17 @@ initializeAuth();
 const UseFirebase = () => {
   const [user, setUser] = useState({});
   const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
 
   const createUserWithEmail = (email, password) => {
+    setIsLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
   const signInWithEmail = (email, password) => {
+    setIsLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
   const updateUser = (name) => {
@@ -44,8 +48,12 @@ const UseFirebase = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        getIdToken(user).then((idToken) =>
+          localStorage.setItem("idToken", idToken)
+        );
         setUser(user);
       }
+      setIsLoading(false);
     });
   }, [user]);
 
@@ -63,6 +71,8 @@ const UseFirebase = () => {
     createUserWithEmail,
     updateUser,
     signInWithEmail,
+    isLoading,
+    setIsLoading,
   };
 };
 
